@@ -1,16 +1,16 @@
 // This file is based on https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/simplemde/index.d.ts,
 // which is written by Scalesoft <https://github.com/Scalesoft> and licensed under the MIT license:
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,11 +20,13 @@
 // SOFTWARE.
 
 /// <reference types="codemirror"/>
+/// <reference types="marked"/>
 
 declare namespace EasyMDE {
     interface AutoSaveOptions {
         enabled?: boolean;
         delay?: number;
+        submit_delay?: number;
         uniqueId: string;
     }
 
@@ -47,9 +49,16 @@ declare namespace EasyMDE {
         underscoresBreakWords?: boolean;
     }
 
+    interface PromptTexts {
+        image?: string;
+        link?: string;
+    }
+
     interface RenderingOptions {
+        codeSyntaxHighlighting?: boolean;
+        hljs?: any;
+        markedOptions?: marked.MarkedOptions;
         singleLineBreaks?: boolean;
-        codeSyntaxHighlighting: boolean;
     }
 
     interface Shortcuts {
@@ -86,6 +95,22 @@ declare namespace EasyMDE {
         noMobile?: boolean;
     }
 
+    interface ImageTextsOptions {
+        sbInit?: string;
+        sbOnDragEnter?: string;
+        sbOnDrop?: string;
+        sbProgress?: string;
+        sbOnUploaded?: string;
+        sizeUnits?: string;
+    }
+
+    interface ImageErrorTextsOptions {
+        noFileGiven?: string;
+        typeNotAllowed?: string;
+        fileTooLarge?: string;
+        importError?: string;
+    }
+
     interface Options {
         autoDownloadFontAwesome?: boolean;
         autofocus?: boolean;
@@ -98,21 +123,38 @@ declare namespace EasyMDE {
         initialValue?: string;
         insertTexts?: InsertTextOptions;
         lineWrapping?: boolean;
+        minHeight?: string;
         parsingConfig?: ParsingOptions;
         placeholder?: string;
+        previewClass?: string | ReadonlyArray<string>;
         previewRender?: (markdownPlaintext: string, previewElement: HTMLElement) => string;
         promptURLs?: boolean;
         renderingConfig?: RenderingOptions;
         shortcuts?: Shortcuts;
         showIcons?: ReadonlyArray<string>;
         spellChecker?: boolean;
+        inputStyle?: 'textarea' | 'contenteditable';
+        nativeSpellcheck?: boolean;
         status?: boolean | ReadonlyArray<string | StatusBarItem>;
         styleSelectedText?: boolean;
         tabSize?: number;
-        toolbar?: boolean | ReadonlyArray<string | ToolbarIcon>;
+        toolbar?: boolean | ReadonlyArray<'|' | ToolbarIcon>;
         toolbarTips?: boolean;
         onToggleFullScreen?: (goingIntoFullScreen: boolean) => void;
         theme?: string;
+
+        uploadImage?: boolean;
+        imageMaxSize?: number;
+        imageAccept?: string;
+        imageUploadFunction?: (file: File, onSuccess: (url: string) => void, onError: (error: string) => void) => void;
+        imageUploadEndpoint?: string;
+        imageCSRFToken?: string;
+        imageTexts?: ImageTextsOptions;
+        errorMessages?: ImageErrorTextsOptions;
+        errorCallback?: (errorMessage: string) => void;
+
+        promptTexts?: PromptTexts;
+        syncSideBySidePreviewScroll?: boolean;
     }
 }
 
